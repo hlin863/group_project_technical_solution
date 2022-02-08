@@ -31,21 +31,22 @@ while I[j] > 0 and t[j] < t_end:
     u1 = np.random.uniform(0, 1) # random number to determine if infected
     u2 = np.random.uniform(0, 1) # random number to determine time
 
-    # use infection data to predict future cases every 5 days. 
     if (j + 1) % 100 == 0:
-        # polyfit to predict future cases
+        # print('Time: ' + str(t[j]))
 
-        with warnings.catch_warnings():
-            # ignore warning for polyfit
-            warnings.simplefilter("ignore")
-            z = np.polyfit(x, y, 1) # fit a line to the data
-            line = np.poly1d(z) # create a line based on the fit  
-            # perform line formula on the x-axis
-            p = line(x)
+        x = t[:j + 1]
+        y = CI[:j + 1]
         
-        Ptis.append(x) # store time interval
-        Ps.append(line(x)) # stores polyfit data
-        Pts.append(j + 1) # stores time interval
+        # extrapolate using x and y values
+        fit = np.polyfit(x, y, 1)
+
+        line = np.poly1d(fit)
+        if len(x) == len(line(x)) == len(y):
+            print("Line size: " + str(len(line(x))))
+        
+        Ptis.append(x)
+        Ps.append(line(x))
+        Pts.append(int(t[j]))
 
     if 0 < u1 <= p_i:
         S.append(S[j] - 1)
@@ -71,7 +72,7 @@ plt.plot(t, CI, color='k', label='Cumulative infected')
 
 # plot polyfit onto a graph
 for i in range(len(Ps)):
-    plt.plot(Ptis[i], Ps[i], color='r', label='Fit ends at ' + str(Pts[i]))
+     plt.plot(Ptis[i], Ps[i], color='r', label='Fit ends at ' + str(Pts[i]))
 
 plt.legend()
 plt.show()
