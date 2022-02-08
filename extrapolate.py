@@ -4,14 +4,15 @@ import matplotlib.pyplot as plt
 
 plt.rcParams.update({'font.size': 10})
 
-beta, gamma = 0.9, 0.4 # effective contact rate, recovery rate
-N = 1000 # population
+beta = 0.9  # Effective contact rate [1/min]
+gamma = 0.4  # Recovery(+Mortality) rate[1/min]
+N = 1000  # the total population 𝑁=𝑆+𝐼+𝑅
 t_end = 30 # time
 
-R = [0] # Recovered Population
-t = [0] # Elapsed Time
-I = [10] # Infected Population
-S = [N - I[0]] # Susceptible Population
+R = [0]  # Recovered or Fatal (= Recovered + Fatal)
+t = [0]  # The elapsed time from the start date
+I = [10]  # Infected (=Confirmed - Recovered - Fatal)
+S = [N - I[0]]  # Susceptible (= Population - Confirmed)
 CI = [0] # Cumulative Infected Population
 
 Ptis = [] # List to store polyfit time intervals
@@ -29,9 +30,11 @@ while I[j] > 0 and t[j] < t_end:
 
     p_i = a / (a + b) # probability of infection
     p_r = b / (a + b) # probability of recovery
-
-    u1 = np.random.uniform(0, 1) # random number to determine if infected
-    u2 = np.random.uniform(0, 1) # random number to determine time
+    
+    # random number to determine if infected
+    u1 = np.random.uniform(0, 1) 
+    # random number to determine time
+    u2 = np.random.uniform(0, 1) 
 
     if (j + 1) % 100 == 0:
         # print('Time: ' + str(t[j]))

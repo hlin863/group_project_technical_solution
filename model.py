@@ -3,15 +3,16 @@ import matplotlib.pyplot as plt
 
 plt.rcParams.update({'font.size': 22})
 
-beta, gamma = 0.9, 0.4
-N = 1000
+beta = 0.9  # Effective contact rate [1/min]
+gamma = 0.4  # Recovery(+Mortality) rate[1/min]
+N = 1000     # 𝑁=𝑆+𝐼+𝑅  is the total population
 t_end = 30
 
-Rs = []
-ts = []
-Is = []
-Ss = []
-CIs = []
+Rs = []  # Recovered or Fatal (= Recovered + Fatal)
+ts = []  # The elapsed time from the start date.
+Is = []  # Infected (=Confirmed - Recovered - Fatal)
+Ss = []  # Susceptible (= Population - Confirmed)
+CIs = []  # Total cumulative cases
 
 for i in range(3):
     R = [0]
