@@ -20,6 +20,8 @@ Pts = [] # List to store polyfit time interval data
 
 j = 0 # counter to track the time
 
+# variable to store the colors
+colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
 
 while I[j] > 0 and t[j] < t_end:
     a = beta * S[j] * I[j] / N
@@ -38,7 +40,7 @@ while I[j] > 0 and t[j] < t_end:
         y = CI[:j + 1]
         
         # extrapolate using x and y values
-        fit = np.polyfit(x, y, 1)
+        fit = np.polyfit(x, y, 3)
 
         line = np.poly1d(fit)
         if len(x) == len(line(x)) == len(y):
@@ -71,8 +73,13 @@ plt.ylabel("Infected population")
 plt.plot(t, CI, color='k', label='Cumulative infected')
 
 # plot polyfit onto a graph
+colori = 0
 for i in range(len(Ps)):
-     plt.plot(Ptis[i], Ps[i], color='r', label='Fit ends at ' + str(Pts[i]))
+    colori += 1
+    if colori == len(colors):
+        colori = 0
+    # print("color index: " + str(colori))
+    plt.plot(Ptis[i], Ps[i], color=colors[colori], label='Fit ends at ' + str(Pts[i]))
 
 plt.legend()
 plt.show()
