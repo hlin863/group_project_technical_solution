@@ -3,6 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
+# Perform logistic fitting based on the values each day (make the time-interval between each measurement more realistic).
+# Plotting the error functions: the distance between the measured values and the values predicted by the logistic fit. 
+
 plt.rcParams.update({'font.size': 10})
 
 def logistic_fit(t, a, b, c):
