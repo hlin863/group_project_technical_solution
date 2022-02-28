@@ -1,7 +1,7 @@
 import warnings
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.optimize import curve_fit
+import numpy as np # import numpy
+import matplotlib.pyplot as plt # library to plot the data
+from scipy.optimize import curve_fit # library to perform curve fitting
 
 plt.rcParams.update({'font.size': 10})
 
@@ -21,9 +21,6 @@ S = [N - I[0]]  # Susceptible (= Population - Confirmed)
 CI = [0] # Cumulative Infected Population
 
 j = 0 # counter to track the time
-
-# variable to store the colors
-colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
 
 while I[j] > 0 and t[j] < t_end: # code to generate the CI and t data.
     a = beta * S[j] * I[j] / N
@@ -51,5 +48,21 @@ while I[j] > 0 and t[j] < t_end: # code to generate the CI and t data.
     t.append(t[j] - np.log(u2) / (a + b))
     j += 1
 
-print(len(CI))
-    
+sample_size = 20 # sample size
+
+sample_infected = [] # list to store the sample infected data
+sample_time = [] # initialize sample_time
+
+# iterate through the sample data with steps of 20
+for i in range(0, len(t) - 1, sample_size):
+    sample_infected.append(CI[i]) # append infection data to sample data
+    sample_time.append(t[i]) # append time data to sample data
+
+print(sample_time) # print the sample time
+print(sample_infected) # print the sample data
+
+plt.plot(sample_time, sample_infected, color = 'k') # plot the sample data
+plt.xlabel('Time (days)') # x-axis label
+plt.ylabel('Cumulative Infected Population') # y-axis label
+plt.title('Cumulative Infected Population vs. Time') # title
+plt.show() # show the plot
