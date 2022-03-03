@@ -88,9 +88,9 @@ def sample_simulation(total_time, sample_t, sample_infected, fit_function): # fu
     b_f = float(popt[1]) # b_f is the fitted parameter b
     c_f = float(popt[2]) # c_f is the fitted parameter c
 
-    for i in range(0, len(sample_t)): # iterate through the sample data
-        sample_output.append(fit_function(total_time[i], a_f, b_f, c_f)) # simulates the data
-    
+    for i in range(0, len(total_time)): # iterate through the total time
+        sample_output.append(logistic_fit(total_time[i], a_f, b_f, c_f)) # append the fitted data to the sample_output list
+
     return sample_output
 
 sample_1_output = sample_simulation(t, sample_time_1, sample_infected_1, logistic_fit) # perform simulation on the first section
@@ -101,11 +101,11 @@ sample_5_output = sample_simulation(t, sample_time_5, sample_infected_5, logisti
 
 colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k'] # colors for the lines
 
-plt.plot(sample_time_1, sample_1_output, color = colors[0]) # plot the first section
-plt.plot(sample_time_2, sample_2_output, color = colors[1]) # plot the second section
-plt.plot(sample_time_3, sample_3_output, color = colors[2]) # plot the third section
-plt.plot(sample_time_4, sample_4_output, color = colors[3]) # plot the fourth section
-plt.plot(sample_time_5, sample_5_output, color = colors[4]) # plot the fifth section
+plt.plot(t, sample_1_output, color = colors[0]) # plot the first section
+plt.plot(t, sample_2_output, color = colors[1]) # plot the second section
+plt.plot(t, sample_3_output, color = colors[2]) # plot the third section
+plt.plot(t, sample_4_output, color = colors[3]) # plot the fourth section
+plt.plot(t, sample_5_output, color = colors[4]) # plot the fifth section
 
 plt.xlabel('Time (days)') # x-axis label
 plt.ylabel('Cumulative Infected Population') # y-axis label
