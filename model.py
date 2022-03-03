@@ -37,6 +37,8 @@ while I[j] > 0 and t[j] < t_end:
         R.append(R[j] + 1) # updates the recovered population
 
     t.append(t[j] - np.log(u2) / (a + b)) # updates the time
+    
+    j += 1 # counter increments by 1
 
 plt.title("SIR Model - infected") # title
 plt.xlabel("time") # x label
