@@ -1,0 +1,7 @@
+SIR Model.png - generated using model.py
+
+cumulative_fit.png - generated using extrapolate.py
+
+multi_day_fit.png - generated using multiple_extrapolation.py
+
+sample_simulations.png - generated using epidemic_logistic_fit.py. 
