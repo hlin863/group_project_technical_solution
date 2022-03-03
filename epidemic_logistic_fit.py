@@ -59,9 +59,6 @@ for i in range(0, len(t) - 1, sample_size):
     sample_infected.append(CI[i]) # append infection data to sample data
     sample_time.append(t[i]) # append time data to sample data
 
-print(sample_time) # print the sample time
-print(sample_infected) # print the sample data
-
 plt.plot(sample_time, sample_infected, color = 'k') # plot the sample data
 plt.scatter(sample_time, sample_infected, color = 'r') # plot the individual data points
 
@@ -81,7 +78,7 @@ sample_time_4 = sample_time[0:int(len(sample_time)/5)*4] # fourth section
 sample_infected_5 = sample_infected[0:int(len(sample_infected))] # fifth section
 sample_time_5 = sample_time[0:int(len(sample_time))] # fifth section
 
-def sample_simulation(sample_t, sample_infected, fit_function): # function to perform simulation on the samples.
+def sample_simulation(total_time, sample_t, sample_infected, fit_function): # function to perform simulation on the samples.
 
     sample_output = [] # initialize sample_output
 
@@ -92,15 +89,15 @@ def sample_simulation(sample_t, sample_infected, fit_function): # function to pe
     c_f = float(popt[2]) # c_f is the fitted parameter c
 
     for i in range(0, len(sample_t)): # iterate through the sample data
-        sample_output.append(fit_function(sample_t[i], a_f, b_f, c_f)) # simulates the data
+        sample_output.append(fit_function(total_time[i], a_f, b_f, c_f)) # simulates the data
     
     return sample_output
 
-sample_1_output = sample_simulation(sample_time_1, sample_infected_1, logistic_fit) # perform simulation on the first section
-sample_2_output = sample_simulation(sample_time_2, sample_infected_2, logistic_fit) # perform simulation on the second section
-sample_3_output = sample_simulation(sample_time_3, sample_infected_3, logistic_fit) # perform simulation on the third section
-sample_4_output = sample_simulation(sample_time_4, sample_infected_4, logistic_fit) # perform simulation on the fourth section
-sample_5_output = sample_simulation(sample_time_5, sample_infected_5, logistic_fit) # perform simulation on the fifth section
+sample_1_output = sample_simulation(t, sample_time_1, sample_infected_1, logistic_fit) # perform simulation on the first section
+sample_2_output = sample_simulation(t, sample_time_2, sample_infected_2, logistic_fit) # perform simulation on the second section
+sample_3_output = sample_simulation(t, sample_time_3, sample_infected_3, logistic_fit) # perform simulation on the third section
+sample_4_output = sample_simulation(t, sample_time_4, sample_infected_4, logistic_fit) # perform simulation on the fourth section
+sample_5_output = sample_simulation(t, sample_time_5, sample_infected_5, logistic_fit) # perform simulation on the fifth section
 
 colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k'] # colors for the lines
 
