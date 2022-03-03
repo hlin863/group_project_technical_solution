@@ -1,2 +1,2 @@
 # group_project_technical_solution
-Please check the program and leave some feedback about alternative approaches, thank you for looking at the repository once again. 
+This program has different epidemic models: simulating the SIR model, using projection for the different models, and compare the extrapolation with the simulated data. 
