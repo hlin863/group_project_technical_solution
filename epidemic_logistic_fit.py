@@ -82,7 +82,9 @@ def sample_simulation(total_time, sample_t, sample_infected, fit_function): # fu
 
     sample_output = [] # initialize sample_output
 
-    popt, pcov = curve_fit(fit_function, sample_t, sample_infected) # perform curve fitting on the sample data
+    p0 = [1000, 10, 1] # initialize p0 as initial population
+
+    popt, pcov = curve_fit(fit_function, sample_t, sample_infected, p0) # perform curve fitting on the sample data
 
     a_f = float(popt[0]) # a_f is the fitted parameter a
     b_f = float(popt[1]) # b_f is the fitted parameter b
