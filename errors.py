@@ -138,6 +138,8 @@ def simulation_projected(beta, gamma, N, t_end, R, t, I, S, CI):
 
 I, t = simulation_synthetic(beta, gamma, N, t_end, R, t, I, S, CI) # simulates the synthetic data
 
+total_differences = []
+
 for index in range(100):
     sample_1_I, sample_2_I, sample_3_I, sample_4_I, sample_5_I = simulation_projected(beta, gamma, N, t_end, R, t, I, S, CI) # simulates the projected data
 
@@ -151,8 +153,17 @@ for index in range(100):
 
         differences.append(abs(I[j] - sample_I[j]))
 
+    total_differences.append(differences)
+
+# find the average differences
+average_differences = []
+
+for index in range(100):
+
+    average_differences.append(sum(total_differences[index]) / len(total_differences[index]))
+        
 plt.title("Error between the synthetic and projected data")
 plt.xlabel("Time")
 plt.ylabel("Error")
-plt.plot(t, differences, color = 'k')
+plt.plot(t, average_differences, color = 'k')
 plt.show()
