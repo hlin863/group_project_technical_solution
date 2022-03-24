@@ -75,11 +75,17 @@ def logistic_fit(t, a, b, c):
 
 time_frames = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30] # time frames
 
-for i in range(0, 30, 3): # loop to run the simulation 10 times
+errors = [] # initialise the error list
+
+for i in range(3, 33, 3): # loop to run the simulation 10 times
     CI, t = simulate(beta, gamma, N, t_end) # run the simulation
 
-    sample_infected = CI[i // 3 : (i // 3) + 1] # sample the infected population
-    sample_time = t[i // 3 : (i // 3) + 1] # sample the time
+    sample_infected = CI[0  : int((i / 30) * len(t))] # sample the infected population
+    sample_time = t[0 : int((i / 30) * len(t))] # sample the time
+
+    # print(sample_infected) # print the sample infected population
+
+    # print(sample_time) # print the sample time
 
     p0 = [1000, 10, 1] # initialize p0 as initial population
 
@@ -95,4 +101,13 @@ for i in range(0, 30, 3): # loop to run the simulation 10 times
     # find the difference between the last data point of the sample_infected and CI
     error = abs(sample_infected[-1] - CI[-1])
 
-    print("The average error for the time frame of " + str(time_frames[i // 3]) + " is " + str(error)) # print the average error
+    errors.append(error) # append the error to the error list
+
+print(errors)
+print(time_frames)
+
+plt.plot(time_frames, errors) # plot the data
+plt.show() # show the plot
+
+# plt.plot(time_frames, errors) # plot the error
+# plt.show() # show the plot
