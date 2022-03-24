@@ -38,6 +38,9 @@ A simulation to calculate the average error for measuring the infected patients.
 	Logistic fit is performed every 3 days on the synthetic data to generate simulated data.
 	Compare the last day data of the simulated data with the synthetic data (real-life) to calculate the error in the measurement of the infected patients. The last day is considered because the data is cumulative, so the previous patients are considered. 
 	The errors are initially stored in a list where the error is the absolute difference between the synthetic data and the predicted data. 
+	
+Limitations
+The current SIR model isn’t completely accurate at projecting the different population groups. The model is simple at identifying main population groups and encapsulating the processes down to 4 simple processes: infection, recovery, exposure, and removal.  The simplification generalizes the spreading of COVID in 4 variables which meant that it will not be possible to consider each individual factor e.g., the differences between the rural and the urban environment. 
  
 Result
  
