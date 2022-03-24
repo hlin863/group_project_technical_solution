@@ -73,41 +73,69 @@ def logistic_fit(t, a, b, c):
 
     return a / (1 + b * np.exp(-c * t))
 
-time_frames = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30] # time frames
+def errors_function(beta, gamma, N, t_end):
+    
+    """
+    errors function to calculate the errors for the different population groups.
 
-errors = [] # initialise the error list
+    :param beta: constant for determining the probability of infection
+    :param gamma: constant for determining the probability of recovery
+    :param N: sample population
+    :param t_end: time
 
-for i in range(3, 33, 3): # loop to run the simulation 10 times
+    :return: errors: the errors for the different population groups
+    :return: time_frames: the time frames for the different population groups
+
+    """
+
+    time_frames = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30] # time frames
+
+    errors = [] # initialise the error list
+
+    for i in range(3, 33, 3): # loop to run the simulation 10 times
+        CI, t = simulate(beta, gamma, N, t_end) # run the simulation
+
+        sample_infected = CI[0  : int((i / 30) * len(t))] # sample the infected population
+        sample_time = t[0 : int((i / 30) * len(t))] # sample the time
+
+        # print(sample_infected) # print the sample infected population
+
+        # print(sample_time) # print the sample time
+
+        p0 = [1000, 10, 1] # initialize p0 as initial population
+
+        popt, pcov = curve_fit(logistic_fit, sample_time, sample_infected, p0) # perform curve fitting
+
+        a_f = popt[0] # fitted constant for determining the probability of infection
+        b_f = popt[1] # fitted constant for determining the probability of recovery
+        c_f = popt[2] # fitted constant for determining the probability of recovery
+
+        for i in range(len(t)):
+            sample_infected.append(logistic_fit(t[i], a_f, b_f, c_f)) # append the fitted curve to the sample infected population
+
+        # find the difference between the last data point of the sample_infected and CI
+        error = abs(sample_infected[-1] - CI[-1])
+
+        errors.append(error) # append the error to the error list
+
+    return errors, time_frames # return the errors and the time frames
+
+# errors, time_frames = errors_function(beta, gamma, N, t_end) # run the errors function to check if function works
+
+average_errors = [] # initialise the average error list
+errors_indices = [] # initialise the error indices list
+
+for i in range(100): # create 100 simulations for the pandemic
+
     CI, t = simulate(beta, gamma, N, t_end) # run the simulation
 
-    sample_infected = CI[0  : int((i / 30) * len(t))] # sample the infected population
-    sample_time = t[0 : int((i / 30) * len(t))] # sample the time
+    errors, time_frames = errors_function(beta, gamma, N, t_end) # run the errors function
 
-    # print(sample_infected) # print the sample infected population
+    average_error = np.mean(errors) # find the average error
 
-    # print(sample_time) # print the sample time
+    average_errors.append(average_error) # append the average error to the average error list
 
-    p0 = [1000, 10, 1] # initialize p0 as initial population
+    errors_indices.append(i) # append the error indices to the error indices list
 
-    popt, pcov = curve_fit(logistic_fit, sample_time, sample_infected, p0) # perform curve fitting
-
-    a_f = popt[0] # fitted constant for determining the probability of infection
-    b_f = popt[1] # fitted constant for determining the probability of recovery
-    c_f = popt[2] # fitted constant for determining the probability of recovery
-
-    for i in range(len(t)):
-        sample_infected.append(logistic_fit(t[i], a_f, b_f, c_f)) # append the fitted curve to the sample infected population
-
-    # find the difference between the last data point of the sample_infected and CI
-    error = abs(sample_infected[-1] - CI[-1])
-
-    errors.append(error) # append the error to the error list
-
-print(errors)
-print(time_frames)
-
-plt.plot(time_frames, errors) # plot the data
+plt.plot(errors_indices, average_errors) # plot the average error against the error indices
 plt.show() # show the plot
-
-# plt.plot(time_frames, errors) # plot the error
-# plt.show() # show the plot
