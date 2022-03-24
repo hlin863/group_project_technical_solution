@@ -1,6 +1,16 @@
 import numpy as np # import numpy
 import matplotlib.pyplot as plt # library to plot the data
 
+"""
+
+The model assumes a normal distribution to determine whether an individual is infected or recovered.
+In real-life scenarios, the probability of infection is determined by contact between individuals.
+The probability of recovery is dependent on a mixture of factors: age, immune system, genetics composition, and other factors.
+
+In the model, there are 2 process: infection and recovery which is a simplification of the real-life epidemic processes.
+
+"""
+
 plt.rcParams.update({'font.size': 12}) # set font size
 
 beta, gamma = 0.9, 0.4 # beta and gamma constants
@@ -37,8 +47,8 @@ while I[j] > 0 and t[j] < t_end:
         R.append(R[j] + 1) # updates the recovered population
 
     t.append(t[j] - np.log(u2) / (a + b)) # updates the time
-    
-    j += 1 # counter increments by 1
+
+    j += 1
 
 plt.title("SIR Model - infected") # title
 plt.xlabel("time") # x label
